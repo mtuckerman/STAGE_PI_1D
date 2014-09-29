@@ -19,6 +19,7 @@ void ext_force(BEADS *beads,MPI_Comm world,int numprocs)
 /* Put your own potential in here if you want */
 
  static double omega=12.0;
+ static double alpha=13.0;
  double om2;
  double my_vext;
  int ibead,iii;

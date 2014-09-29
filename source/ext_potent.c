@@ -18,7 +18,7 @@ void ext_force(BEADS *beads,MPI_Comm world,int numprocs)
 /* Harmonic oscillator potential */
 /* Put your own potential in here if you want */
 
- static double omega=11.0;
+ static double omega=12.0;
  double om2;
  double my_vext;
  int ibead,iii;

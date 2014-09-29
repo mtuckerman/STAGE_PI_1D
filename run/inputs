@@ -1,0 +1,38 @@
+1000000
+400
+0.01
+1.0
+2.0
+1.0
+1.0
+4
+3
+4
+coords.input
+0 1
+50 1
+0.0 
+0
+1.0
+
+
+
+   fscanf(in_file,"%d",&(sim_params->nsteps));
+   fscanf(in_file,"%d",&(beads->np));
+   fscanf(in_file,"%lf",&(sim_params->dt));
+   fscanf(in_file,"%lf",&(sim_params->temp));
+   fscanf(in_file,"%lf",&(sim_params->temp_p));
+   fscanf(in_file,"%lf",&(beads->mass));
+   fscanf(in_file,"%lf",&(beads->mass_const));
+   fscanf(in_file,"%d",&(therm->nch));
+   fscanf(in_file,"%d",&(therm->msuz));
+   fscanf(in_file,"%d",&(therm->nres));
+   fscanf(in_file,"%s",coord_name);
+   fscanf(in_file,"%d %d",&(sim_params->trans_opt),&(sim_params->trans_type));
+    trans_opt = 0: recursive, trans_typ = 1 staging.
+   fscanf(in_file,"%d",nskip,nwrite_cent);
+   fscanf(in_file,"%lf %lf %lf",&(beads->x0));
+   fscanf(in_file,"%d",&cmd_opt);
+   fscanf(in_file,"%lf",&gamma);
+
+.92353  .92353  .92353

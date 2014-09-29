@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#ifdef PARALLEL
+#include "mpi.h"
+#else
+#include "../include/mpi_f.h"
+#endif
+
+#include "../include/typedefs.h"
+#include "../include/proto_ext.h"
+#include "../include/proto_communicate_wrappers.h"
+
+void ext_force(BEADS *beads,MPI_Comm world,int numprocs)
+{
+#include "../include/typ_mask.h"
+/* Local parameters of potential */
+/* Harmonic oscillator potential */
+/* Put your own potential in here if you want */
+
+ static double omega=1.0;
+ double vol = 0.46;
+ double om2;
+ double my_vext;
+ int ibead,iii;
+
+/*==============================================================*/
+ om2 = omega*omega;
+ vol2 = vol*vol;
+ my_vext = 0.0;
+/*==============================================================*/
+ for(ibead=1;ibead <= beads->my_np; ibead++){
+  arg = 2.0*M_PI*r[ibead].x/vol;
+  cos_arg = cos(arg);
+  sin_arg = sin(arg);
+
+  fr[ibead].x = -mass*om2*vol*sin_arg/(2.0*M_PI);
+  my_vext += mass*om2*vol2*(1.0-cos_arg)/(4.0*M_PI*M_PI);
+
+ }/* endfor */
+
+/*==============================================================*/
+/* PARALLEL */
+ if(numprocs > 1) {
+   Reduce(&my_vext,&beads->v_ext,1,MPI_DOUBLE,MPI_SUM,0,world);
+ } else {
+   beads->v_ext = my_vext;
+ }/* endif */
+/*==============================================================*/
+} /* end function */
+

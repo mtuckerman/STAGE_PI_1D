@@ -1,0 +1,8 @@
+#!/bin/sh
+#PBS -l walltime=5:00:00
+#PBS -l nodes=1
+
+cd $HOME/PATH_INT/PI_1D/run
+time $HOME/PATH_INT/PI_1D/run/path_int.x inputs > path_int.out
+
+exit 0

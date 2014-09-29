@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#ifdef PARALLEL
+#include "mpi.h"
+#else 
+#include "../include/mpi_f.h"
+#endif
+
+#include "../include/typedefs.h"
+#include "../include/proto_ext.h"
+#include "../include/proto_communicate_wrappers.h"
+
+void ext_force(BEADS *beads,MPI_Comm world,int num_procs)
+{
+#include "../include/typ_mask.h"
+/* Local parameters of potential */
+/* Fit to H2 potential from DFT */
+/* Put your own potential in here if you want */
+
+ static double a0=0.378831251,a1=-3.38689859,a2=3.05347803,a3=-1.45101775,
+               a4=0.388828278,a5=-0.0557167518,a6=0.00331778867;
+
+ double my_vext;
+ double r,pot,dpot;
+ double x2,y2,z2;
+ VECTOR *beads_r = beads->r;
+ int ibead,iii;
+
+ my_vext = 0.0;
+ for(ibead=1;ibead <= beads->my_np; ibead++){
+  x2 = beads_r[ibead].x*beads_r[ibead].x;
+  y2 = beads_r[ibead].y*beads_r[ibead].y;
+  z2 = beads_r[ibead].z*beads_r[ibead].z;
+  r = sqrt(x2 + y2 + z2);
+  pot = (((((a6*r + a5)*r + a4)*r + a3)*r + a2)*r + a1)*r + a0;
+  dpot = ((((6.0*a6*r + 5.0*a5)*r + 4.0*a4)*r + 3.0*a3)*r + 2.0*a2)*r + a1;
+  beads->fr[ibead].x = -dpot*beads_r[ibead].x/r;
+  beads->fr[ibead].y = -dpot*beads_r[ibead].y/r;
+  beads->fr[ibead].z = -dpot*beads_r[ibead].z/r;
+  my_vext += pot;
+ } /* endfor */
+
+ if(num_procs > 1) {
+   Reduce(&my_vext,&beads->v_ext,1,MPI_DOUBLE,MPI_SUM,0,world);
+ } else {
+   beads->v_ext = my_vext;
+ }
+
+} /* end function */
+
+
+
+
+

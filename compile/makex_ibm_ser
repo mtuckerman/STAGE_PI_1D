@@ -1,0 +1,19 @@
+f77 -c -O2 ../source/durand.f
+xlf -c -O2 ../source/jacobi.f
+echo ext_potent.c:
+cc -c  -O3 -qstrict ../source/ext_potent.c
+echo transform.c:
+cc -c  -O3 -qstrict ../source/transform.c
+echo integrate.c:
+cc -c  -O3 -qstrict ../source/integrate.c
+echo observables.c:
+cc -c  -O3 -qstrict ../source/observables.c
+echo init.c:
+cc -c -O3 -qstrict ../source/init.c
+echo utils.c:
+cc -c -O3 -qstrict ../source/utils.c
+echo communicate_wrappers.c:
+cc -c -O3 -qstrict ../source/communicate_wrappers.c
+echo linking:
+cc -o ../run/path_int.x durand.o jacobi.o ext_potent.o init.o transform.o observables.o integrate.o communicate_wrappers.o utils.o ../source/path_int.c -lm 
+'rm' *.o

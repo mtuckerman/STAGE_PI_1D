@@ -1,0 +1,8 @@
+#define MAXWORD 25
+#define RBOLTZ 315777.0
+#define A0 0.529177
+#define NR_END 0
+#define DURAND durand
+#define DSPEV dspev
+#define RS rs
+#define JACOBI jacobi

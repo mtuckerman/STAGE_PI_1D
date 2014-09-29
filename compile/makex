@@ -1,0 +1,19 @@
+ifort -c -O2 ../source/durand.f
+ifort -c -O2 ../source/jacobi.f
+echo ext_potent.c:
+icc -c  -O2  ../source/ext_potent.c
+echo transform.c:
+icc -c  -O2  ../source/transform.c
+echo integrate.c:
+icc -c  -O2  ../source/integrate.c
+echo observables.c:
+icc -c  -O2  ../source/observables.c
+echo init.c:
+icc -c -O2  ../source/init.c
+echo utils.c:
+icc -c -O2  ../source/utils.c
+echo communicate_wrappers.c:
+icc -c -O2  ../source/communicate_wrappers.c
+echo linking:
+icc -o ../run/path_int.x durand.o jacobi.o ext_potent.o init.o transform.o observables.o integrate.o communicate_wrappers.o utils.o ../source/path_int.c -lm 
+'rm' *.o

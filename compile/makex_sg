@@ -1,0 +1,10 @@
+f77 -c ../source/durand.f
+f77 -c ../source/jacobi.f
+/disk3/software/local/mpi/bin/mpicc -c  ../source/ext_potent.c
+/disk3/software/local/mpi/bin/mpicc -c  ../source/transform.c
+/disk3/software/local/mpi/bin/mpicc -c  ../source/integrate.c
+/disk3/software/local/mpi/bin/mpicc -c  ../source/observables.c
+/disk3/software/local/mpi/bin/mpicc -c ../source/init.c
+cc -c ../source/utils.c
+/disk3/software/local/mpi/bin/mpicc -o ../run/path_int.x durand.o jacobi.o ext_potent.o init.o transform.o observables.o integrate.o utils.o ../source/path_int.c -lm 
+'rm' *.o
